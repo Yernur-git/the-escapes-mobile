@@ -1,3 +1,5 @@
 I used codex to organise the game plan and readme
 
 stage 2: codex adapted the assignment 3 menu buttons and lecture 8-9 safe-area example, assembled the menu and empty level scenes, and checked compilation and layout.
+
+stage 3: codex adapted the course movement and input examples for top-down movement, set up the hud and on-screen stick, and reused assets from the earlier prototype.
