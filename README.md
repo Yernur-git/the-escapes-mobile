@@ -26,7 +26,10 @@ walls keep the player inside the room. there is no collection or damage system y
 
 `PlayerMovement.cs` uses a7 `PlayerInput` and `OnMove(InputValue)`, adapted to
 two-axis top-down movement. the screen stick sends `<Gamepad>/leftStick` input.
-the pause button is disabled until the next stage adds the pause screen.
+the top-right pause button opens resume, restart and menu. pause sets
+`Time.timeScale` to 0. resume restores it to 1; restart and menu restore time
+before loading their scene. `PauseMenu.cs` follows the lecture 8-9 pause
+example and the scene-loading examples from assignment 3.
 
 ## assignment 8-9 scope
 
