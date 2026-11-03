@@ -13,14 +13,20 @@ the project uses force text serialization and visible meta files.
 ## current stage
 
 open `Assets/Scenes/MainMenu.unity` and press play.
-the menu has play and quit buttons. play loads `Prison`, currently an empty
-scene for the next stage. quit stops play mode in the editor and closes a build.
+the menu has play and quit buttons. play loads `Prison`, a small movement test
+room. quit stops play mode in the editor and closes a build.
 
 `Assets/Scripts/MenuButtons.cs` uses the play and quit examples from assignment 3,
 with the scene name changed to `Prison`. `SafeArea.cs` uses the lecture 8-9 example.
 the menu canvas uses 1920 x 1080, match height, and centred anchors inside SafeArea.
 
-hud, movement and pause have not been added yet.
+the hud shows three hearts, an initial `items 0` counter and an on-screen stick.
+move with wasd, arrow keys, a gamepad left stick or by dragging the stick handle.
+walls keep the player inside the room. there is no collection or damage system yet.
+
+`PlayerMovement.cs` uses a7 `PlayerInput` and `OnMove(InputValue)`, adapted to
+two-axis top-down movement. the screen stick sends `<Gamepad>/leftStick` input.
+the pause button is disabled until the next stage adds the pause screen.
 
 ## assignment 8-9 scope
 
