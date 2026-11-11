@@ -69,7 +69,20 @@ stop the aim line. it cannot start an attack outside the camera view.
 it on a wall hit or after four seconds. its speed, damage and lifetime are
 set on `Assets/Prefabs/EnemyBullet.prefab`.
 
-the level now has two enemy types. the charger is the next stage.
+## assignment 10, third stage
+
+the green charger guards the lower route. its states are idle, wind-up, dash
+and stunned. a wide red lane warns for 0.7 seconds. the dash then follows a
+fixed direction at speed 11 for up to six units. step sideways to dodge.
+
+`Charger.cs` follows lecture 10's charge sequence. the guard stops on contact,
+rests for one second, then walks back to its post before charging again.
+an attack cooldown prevents immediate repeat charges. a collider cast stops
+fast movement before a wall; player contact during the dash deals one damage.
+the uniform dims while stunned. all attack values are set in the inspector.
+
+all three enemy types now share the same level. phone playtests and tuning
+from two new players are still needed before assignment 10 is complete.
 item collection, inventory and the two full escape routes remain future work.
 
 ## repository
