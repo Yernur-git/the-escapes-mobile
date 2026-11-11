@@ -21,16 +21,22 @@ public class Patroller : MonoBehaviour
 
     State state;
     Rigidbody2D rb;
+    Collider2D hitbox;
+    ContactFilter2D walls;
+    readonly RaycastHit2D[] movementHits = new RaycastHit2D[1];
     PlayerHealth playerHealth;
     Camera viewCamera;
     int point;
     float timer, unseenTime, sightTimer, attackTimer;
-    bool seesPlayer;
+    bool seesPlayer, clearPath;
     Vector2 lastSeen;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        hitbox = GetComponent<Collider2D>();
+        walls.SetLayerMask(obstacleMask);
+        walls.useTriggers = false;
         playerHealth = player.GetComponent<PlayerHealth>();
         viewCamera = Camera.main;
         stateLabel.gameObject.SetActive(Debug.isDebugBuild);
@@ -50,15 +56,17 @@ public class Patroller : MonoBehaviour
             seesPlayer = CanSeePlayer();
             sightTimer = sightInterval;
             if (seesPlayer) lastSeen = player.position;
+            clearPath = ClearPath(lastSeen, attackRange);
         }
 
         switch (state)
         {
             case State.Patrol:
                 Patrol();
-                if (seesPlayer) SetState(State.Chase);
+                if (seesPlayer && clearPath) SetState(State.Chase);
                 break;
             case State.Chase:
+                if (!clearPath) { SetState(State.Patrol); break; }
                 unseenTime = seesPlayer ? 0f : unseenTime + dt;
                 MoveTo(lastSeen, chaseSpeed);
                 if (seesPlayer && DistanceToPlayer() <= attackRange &&
@@ -135,6 +143,27 @@ public class Patroller : MonoBehaviour
         unseenTime = 0f;
         warning.enabled = next == State.Attack;
         stateLabel.text = next.ToString().ToLower();
+        if (next == State.Patrol) SelectPatrolPoint();
+    }
+
+    void SelectPatrolPoint()
+    {
+        float nearest = float.PositiveInfinity;
+        for (int i = 0; i < points.Length; i++)
+        {
+            Vector2 delta = (Vector2)points[i].position - rb.position;
+            if (delta.sqrMagnitude >= nearest) continue;
+            if (!ClearPath(points[i].position)) continue;
+            nearest = delta.sqrMagnitude;
+            point = i;
+        }
+    }
+
+    bool ClearPath(Vector2 target, float stopDistance = 0f)
+    {
+        Vector2 delta = target - rb.position;
+        float distance = Mathf.Max(0f, delta.magnitude - stopDistance);
+        return distance == 0f || hitbox.Cast(delta.normalized, walls, movementHits, distance) == 0;
     }
 
     void LateUpdate()

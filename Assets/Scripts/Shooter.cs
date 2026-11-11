@@ -103,6 +103,7 @@ public class Shooter : MonoBehaviour
 
     void MoveTo(Vector2 target, float speed)
     {
+        target = home + Vector2.ClampMagnitude(target - home, homeRange);
         rb.MovePosition(Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime));
     }
 

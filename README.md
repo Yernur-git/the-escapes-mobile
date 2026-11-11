@@ -41,7 +41,7 @@ example and the scene-loading examples from assignment 3.
 `the-escapes-gdd.pdf` describes the planned game for the following weeks.
 ## assignment 10, first stage
 
-reach the green exit while avoiding the patroller. the guard follows four
+reach the green exit while avoiding the patroller. the guard follows six
 waypoints, chases a player inside its vision cone and stops before a melee hit.
 the red ring warns for 0.6 seconds. move out of reach to dodge. after a strike,
 the guard rests for 0.6 seconds and has a 1.5 second attack cooldown.
@@ -59,7 +59,7 @@ offer restart and menu using the existing PauseMenu scene-loading methods.
 ## assignment 10, second stage
 
 the purple shooter uses lecture 10's idle, keep distance, aim and cooldown
-states. it tries to stay about five units from the player. a red line warns
+states. it tries to stay about 3.6 units from the player. a red line warns
 for 0.6 seconds, then a slow bullet travels at five units per second. the
 shooter waits 1.5 seconds before preparing another shot.
 
@@ -83,6 +83,21 @@ the uniform dims while stunned. all attack values are set in the inspector.
 
 all three enemy types now share the same level. phone playtests and tuning
 from two new players are still needed before assignment 10 is complete.
+
+## level revision
+
+the route goes through the cell block, watch post and service wing. the first
+divider opens at the bottom, the second at the top. the exit is at the bottom
+of the service wing, so the old straight run along the upper edge is blocked.
+the middle cover can block the shooter's sight and bullets.
+
+player speed is 2.8. the shooter stays within one unit of its post, while trying
+to keep its preferred distance. when a chase ends, the patroller selects the
+nearest reachable waypoint. a collider cast checks that its body can follow
+the path, including at wall corners.
+
+these are preliminary changes after the author's laptop feedback and automated
+movement checks. they do not replace the required phone tests with two new players.
 item collection, inventory and the two full escape routes remain future work.
 
 ## repository
