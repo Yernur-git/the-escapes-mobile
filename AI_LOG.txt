@@ -1,1 +1,3 @@
 I used codex to organise the game plan and readme, find assets and licences, help with fixing and testing issues
+
+I used codex to plan the enemy behaviours and level layout, help implement the lecture examples, fix movement issues and test the game. it also helped troubleshoot the unity remote connection.

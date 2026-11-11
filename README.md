@@ -81,8 +81,11 @@ an attack cooldown prevents immediate repeat charges. a collider cast stops
 fast movement before a wall; player contact during the dash deals one damage.
 the uniform dims while stunned. all attack values are set in the inspector.
 
-all three enemy types now share the same level. phone playtests and tuning
-from two new players are still needed before assignment 10 is complete.
+all three enemy types share the same level. the canvas submission asks for the
+project or repository link, the enemy scripts and one narrated 2–3 minute mp4
+showing the result, main steps, problems and solutions. AI_LOG.txt is the log
+named by the canvas brief; DECISIONS.md and separate phone playtest clips are
+not listed there.
 
 ## level revision
 
@@ -96,8 +99,8 @@ to keep its preferred distance. when a chase ends, the patroller selects the
 nearest reachable waypoint. a collider cast checks that its body can follow
 the path, including at wall corners.
 
-these are preliminary changes after the author's laptop feedback and automated
-movement checks. they do not replace the required phone tests with two new players.
+these changes followed laptop feedback and automated movement checks. the author
+played the revised level several times and lost once. no phone-test result is claimed.
 item collection, inventory and the two full escape routes remain future work.
 
 ## repository
