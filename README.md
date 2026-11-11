@@ -56,7 +56,20 @@ the vision range and cone in the scene view. the yellow dot marks its facing.
 zero health shows caught; reaching the exit shows you escaped. both screens
 offer restart and menu using the existing PauseMenu scene-loading methods.
 
-this stage has one enemy type. the shooter and charger are the next stages.
+## assignment 10, second stage
+
+the purple shooter uses lecture 10's idle, keep distance, aim and cooldown
+states. it tries to stay about five units from the player. a red line warns
+for 0.6 seconds, then a slow bullet travels at five units per second. the
+shooter waits 1.5 seconds before preparing another shot.
+
+`Shooter.cs` controls distance, aiming and firing. walls block detection and
+stop the aim line. it cannot start an attack outside the camera view.
+`EnemyBullet.cs` moves the projectile, damages the player on contact and removes
+it on a wall hit or after four seconds. its speed, damage and lifetime are
+set on `Assets/Prefabs/EnemyBullet.prefab`.
+
+the level now has two enemy types. the charger is the next stage.
 item collection, inventory and the two full escape routes remain future work.
 
 ## repository
