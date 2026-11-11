@@ -14,15 +14,15 @@ the project uses force text serialization and visible meta files.
 
 open `Assets/Scenes/MainMenu.unity` and press play.
 the menu has play and quit buttons. play loads `Prison`, a small movement test
-room. quit stops play mode in the editor and closes a build.
+level. quit stops play mode in the editor and closes a build.
 
 `Assets/Scripts/MenuButtons.cs` uses the play and quit examples from assignment 3,
 with the scene name changed to `Prison`. `SafeArea.cs` uses the lecture 8-9 example.
 the menu canvas uses 1920 x 1080, match height, and centred anchors inside SafeArea.
 
-the hud shows three hearts, an initial `items 0` counter and an on-screen stick.
+the hud shows three hearts, the exit objective and an on-screen stick.
 move with wasd, arrow keys, a gamepad left stick or by dragging the stick handle.
-walls keep the player inside the room. there is no collection or damage system yet.
+walls keep the player inside the level and block the guard's sight.
 
 `PlayerMovement.cs` uses a7 `PlayerInput` and `OnMove(InputValue)`, adapted to
 two-axis top-down movement. the screen stick sends `<Gamepad>/leftStick` input.
@@ -39,7 +39,25 @@ example and the scene-loading examples from assignment 3.
 - safe-area layout tested on a 16:9 phone, a notch phone and a 4:3 tablet.
 
 `the-escapes-gdd.pdf` describes the planned game for the following weeks.
-guards, item collection and the escape objective are outside this setup stage.
+## assignment 10, first stage
+
+reach the green exit while avoiding the patroller. the guard follows four
+waypoints, chases a player inside its vision cone and stops before a melee hit.
+the red ring warns for 0.6 seconds. move out of reach to dodge. after a strike,
+the guard rests for 0.6 seconds and has a 1.5 second attack cooldown.
+
+`Patroller.cs` adapts lecture 10's enum, switch, state timer, waypoint movement
+and 2d distance, angle and raycast checks. its obstacle mask contains only Walls.
+movement uses Rigidbody2D.MovePosition in FixedUpdate. select the guard to see
+the vision range and cone in the scene view. the yellow dot marks its facing.
+
+`PlayerHealth.cs` updates the hearts and gives one second of immunity after a hit.
+`PrisonExit.cs` calls `LevelResult.cs` when the player reaches the exit.
+zero health shows caught; reaching the exit shows you escaped. both screens
+offer restart and menu using the existing PauseMenu scene-loading methods.
+
+this stage has one enemy type. the shooter and charger are the next stages.
+item collection, inventory and the two full escape routes remain future work.
 
 ## repository
 
