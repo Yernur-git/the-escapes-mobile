@@ -8,13 +8,7 @@ public class Patroller : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] Transform[] points;
     [SerializeField] LayerMask obstacleMask;
-    [SerializeField] float patrolSpeed = 1.2f, chaseSpeed = 2.6f;
-    [SerializeField] float viewRange = 4.5f, fov = 90f;
-    [SerializeField] float sightInterval = .15f, loseTime = 2f;
-    [SerializeField] float attackRange = 1f, windUp = .6f;
-    [SerializeField] float recovery = .6f, cooldown = 1.5f;
-    [SerializeField] float waypointDistance = .08f;
-    [SerializeField] int damage = 1;
+    [SerializeField] PatrollerStats stats;
     [SerializeField] SpriteRenderer warning;
     [SerializeField] TextMesh stateLabel;
     [SerializeField] Transform visual;
@@ -54,9 +48,9 @@ public class Patroller : MonoBehaviour
         if (sightTimer <= 0f)
         {
             seesPlayer = CanSeePlayer();
-            sightTimer = sightInterval;
+            sightTimer = stats.sightInterval;
             if (seesPlayer) lastSeen = player.position;
-            clearPath = ClearPath(lastSeen, attackRange);
+            clearPath = ClearPath(lastSeen, stats.attackRange);
         }
 
         switch (state)
@@ -68,25 +62,25 @@ public class Patroller : MonoBehaviour
             case State.Chase:
                 if (!clearPath) { SetState(State.Patrol); break; }
                 unseenTime = seesPlayer ? 0f : unseenTime + dt;
-                MoveTo(lastSeen, chaseSpeed);
-                if (seesPlayer && DistanceToPlayer() <= attackRange &&
+                MoveTo(lastSeen, stats.chaseSpeed);
+                if (seesPlayer && DistanceToPlayer() <= stats.attackRange &&
                     attackTimer <= 0f && OnScreen())
                     SetState(State.Attack);
-                else if (unseenTime >= loseTime)
+                else if (unseenTime >= stats.loseTime)
                     SetState(State.Patrol);
                 break;
             case State.Attack:
                 if (!OnScreen()) SetState(State.Recovery);
-                else if (timer >= windUp)
+                else if (timer >= stats.windUp)
                 {
-                    if (DistanceToPlayer() <= attackRange && ClearLine())
-                        playerHealth.TakeDamage(damage);
-                    attackTimer = cooldown;
+                    if (DistanceToPlayer() <= stats.attackRange && ClearLine())
+                        playerHealth.TakeDamage(stats.damage);
+                    attackTimer = stats.cooldown;
                     SetState(State.Recovery);
                 }
                 break;
             case State.Recovery:
-                if (timer >= recovery)
+                if (timer >= stats.recovery)
                     SetState(seesPlayer ? State.Chase : State.Patrol);
                 break;
         }
@@ -96,15 +90,15 @@ public class Patroller : MonoBehaviour
     {
         if (points.Length == 0) return;
         Vector2 target = points[point].position;
-        MoveTo(target, patrolSpeed);
-        if (Vector2.Distance(rb.position, target) < waypointDistance)
+        MoveTo(target, stats.patrolSpeed);
+        if (Vector2.Distance(rb.position, target) < stats.waypointDistance)
             point = (point + 1) % points.Length;
     }
 
     void MoveTo(Vector2 target, float speed)
     {
         Vector2 direction = target - rb.position;
-        if (direction.sqrMagnitude > waypointDistance * waypointDistance)
+        if (direction.sqrMagnitude > stats.waypointDistance * stats.waypointDistance)
             rb.SetRotation(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         rb.MovePosition(Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime));
     }
@@ -112,8 +106,8 @@ public class Patroller : MonoBehaviour
     bool CanSeePlayer()
     {
         Vector2 toPlayer = player.position - transform.position;
-        if (toPlayer.magnitude > viewRange) return false;
-        if (Vector2.Angle(transform.right, toPlayer) > fov / 2f) return false;
+        if (toPlayer.magnitude > stats.viewRange) return false;
+        if (Vector2.Angle(transform.right, toPlayer) > stats.fov / 2f) return false;
         return ClearLine();
     }
 
@@ -174,12 +168,13 @@ public class Patroller : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        if (stats == null) return;
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, viewRange);
+        Gizmos.DrawWireSphere(transform.position, stats.viewRange);
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position,
-            Quaternion.Euler(0f, 0f, -fov / 2f) * transform.right * viewRange);
+            Quaternion.Euler(0f, 0f, -stats.fov / 2f) * transform.right * stats.viewRange);
         Gizmos.DrawRay(transform.position,
-            Quaternion.Euler(0f, 0f, fov / 2f) * transform.right * viewRange);
+            Quaternion.Euler(0f, 0f, stats.fov / 2f) * transform.right * stats.viewRange);
     }
 }

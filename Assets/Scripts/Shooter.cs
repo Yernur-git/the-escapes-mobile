@@ -11,12 +11,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] LineRenderer aimLine;
     [SerializeField] Transform visual;
     [SerializeField] TextMesh stateLabel;
-    [SerializeField] float viewRange = 7f, preferredDistance = 5f;
-    [SerializeField] float distanceMargin = .5f, moveSpeed = 2.2f;
-    [SerializeField] float homeRange = 5f, returnSpeed = 1.5f;
-    [SerializeField] float homeTolerance = .2f, turnSpeed = 340f;
-    [SerializeField] float sightInterval = .15f, loseTime = 1f;
-    [SerializeField] float repositionTime = .25f, windUp = .6f, cooldown = 1.5f;
+    [SerializeField] ShooterStats stats;
 
     State state;
     Rigidbody2D rb;
@@ -46,16 +41,16 @@ public class Shooter : MonoBehaviour
         if (sightTimer <= 0f)
         {
             seesPlayer = CanSeePlayer();
-            sightTimer = sightInterval;
+            sightTimer = stats.sightInterval;
         }
 
         switch (state)
         {
             case State.Idle:
-                if (Vector2.Distance(rb.position, home) > homeTolerance)
+                if (Vector2.Distance(rb.position, home) > stats.homeTolerance)
                 {
                     Face(home);
-                    MoveTo(home, returnSpeed);
+                    MoveTo(home, stats.returnSpeed);
                 }
                 if (seesPlayer) SetState(State.KeepDistance);
                 break;
@@ -63,8 +58,8 @@ public class Shooter : MonoBehaviour
                 if (seesPlayer) Face(player.position);
                 KeepDistance();
                 unseenTime = seesPlayer ? 0f : unseenTime + dt;
-                if (unseenTime >= loseTime) SetState(State.Idle);
-                else if (seesPlayer && timer >= repositionTime && OnScreen())
+                if (unseenTime >= stats.loseTime) SetState(State.Idle);
+                else if (seesPlayer && timer >= stats.repositionTime && OnScreen())
                     SetState(State.Aim);
                 break;
             case State.Aim:
@@ -73,7 +68,7 @@ public class Shooter : MonoBehaviour
                 {
                     if (seesPlayer) Face(player.position);
                     DrawAim();
-                    if (timer >= windUp)
+                    if (timer >= stats.windUp)
                     {
                         if (CanSeePlayer()) Fire();
                         SetState(State.Cooldown);
@@ -83,7 +78,7 @@ public class Shooter : MonoBehaviour
             case State.Cooldown:
                 if (seesPlayer) Face(player.position);
                 KeepDistance();
-                if (timer >= cooldown)
+                if (timer >= stats.cooldown)
                     SetState(seesPlayer ? State.KeepDistance : State.Idle);
                 break;
         }
@@ -94,16 +89,16 @@ public class Shooter : MonoBehaviour
         if (!seesPlayer) return;
         Vector2 toPlayer = (Vector2)player.position - rb.position;
         float distance = toPlayer.magnitude;
-        if (distance < preferredDistance - distanceMargin)
-            MoveTo(rb.position - toPlayer.normalized, moveSpeed);
-        else if (distance > preferredDistance + distanceMargin &&
-            Vector2.Distance(rb.position, home) < homeRange)
-            MoveTo(player.position, moveSpeed);
+        if (distance < stats.preferredDistance - stats.distanceMargin)
+            MoveTo(rb.position - toPlayer.normalized, stats.moveSpeed);
+        else if (distance > stats.preferredDistance + stats.distanceMargin &&
+            Vector2.Distance(rb.position, home) < stats.homeRange)
+            MoveTo(player.position, stats.moveSpeed);
     }
 
     void MoveTo(Vector2 target, float speed)
     {
-        target = home + Vector2.ClampMagnitude(target - home, homeRange);
+        target = home + Vector2.ClampMagnitude(target - home, stats.homeRange);
         rb.MovePosition(Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime));
     }
 
@@ -111,13 +106,13 @@ public class Shooter : MonoBehaviour
     {
         Vector2 direction = target - rb.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.SetRotation(Mathf.MoveTowardsAngle(rb.rotation, angle, turnSpeed * Time.fixedDeltaTime));
+        rb.SetRotation(Mathf.MoveTowardsAngle(rb.rotation, angle, stats.turnSpeed * Time.fixedDeltaTime));
     }
 
     bool CanSeePlayer()
     {
         Vector2 toPlayer = (Vector2)player.position - rb.position;
-        if (toPlayer.magnitude > viewRange) return false;
+        if (toPlayer.magnitude > stats.viewRange) return false;
         return Physics2D.Raycast(rb.position, toPlayer.normalized,
             toPlayer.magnitude, obstacleMask).collider == null;
     }
@@ -136,8 +131,8 @@ public class Shooter : MonoBehaviour
     void DrawAim()
     {
         Vector2 direction = AimDirection();
-        RaycastHit2D hit = Physics2D.Raycast(rb.position, direction, viewRange, obstacleMask);
-        Vector2 end = hit.collider != null ? hit.point : rb.position + direction * viewRange;
+        RaycastHit2D hit = Physics2D.Raycast(rb.position, direction, stats.viewRange, obstacleMask);
+        Vector2 end = hit.collider != null ? hit.point : rb.position + direction * stats.viewRange;
         aimLine.SetPosition(0, rb.position);
         aimLine.SetPosition(1, end);
     }

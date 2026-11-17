@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 3.5f;
+    [SerializeField] PlayerStats stats;
     Vector2 move;
     Rigidbody2D rb;
 
@@ -19,6 +19,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = Vector2.ClampMagnitude(move, 1f) * speed;
+        rb.linearVelocity = Vector2.ClampMagnitude(move, 1f) * stats.speed;
     }
 }

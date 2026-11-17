@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] int maxHealth = 3;
-    [SerializeField] float invulnerability = 1f;
+    [SerializeField] PlayerStats stats;
     [SerializeField] Image[] hearts;
     [SerializeField] LevelResult result;
 
@@ -17,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        health = maxHealth;
+        health = stats.maxHealth;
         sprites = GetComponentsInChildren<SpriteRenderer>();
         colors = new Color[sprites.Length];
         for (int i = 0; i < sprites.Length; i++) colors[i] = sprites[i].color;
@@ -35,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (!IsAlive || hurtTimer > 0f || result.IsFinished) return;
         health = Mathf.Max(0, health - damage);
-        hurtTimer = invulnerability;
+        hurtTimer = stats.invulnerability;
         RefreshHearts();
         if (!IsAlive) result.Finish(false);
     }

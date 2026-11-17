@@ -66,8 +66,8 @@ shooter waits 1.5 seconds before preparing another shot.
 `Shooter.cs` controls distance, aiming and firing. walls block detection and
 stop the aim line. it cannot start an attack outside the camera view.
 `EnemyBullet.cs` moves the projectile, damages the player on contact and removes
-it on a wall hit or after four seconds. its speed, damage and lifetime are
-set on `Assets/Prefabs/EnemyBullet.prefab`.
+it on a wall hit or after four seconds. the prefab references its balance
+asset in `Assets/Data/EnemyBullet.asset`.
 
 ## assignment 10, third stage
 
@@ -102,6 +102,19 @@ the path, including at wall corners.
 these changes followed laptop feedback and automated movement checks. the author
 played the revised level several times and lost once. no phone-test result is claimed.
 item collection, inventory and the two full escape routes remain future work.
+
+## assignment 11, balance data
+
+`Assets/Data` holds five ScriptableObject assets: Patroller, Shooter, Charger,
+Player and EnemyBullet. select an asset to edit its values in the inspector.
+the matching stats classes are in `Assets/Scripts/Data` and use lecture 11's
+CreateAssetMenu pattern.
+
+the enemy scripts read their movement, sight and attack values from these assets.
+PlayerMovement and PlayerHealth share the Player asset. EnemyBullet reads its
+speed, damage and lifetime from the EnemyBullet asset through the prefab.
+current health, state and timers stay on each scene object; gameplay does not
+write them into shared data. the values match the previous level setup.
 
 ## repository
 

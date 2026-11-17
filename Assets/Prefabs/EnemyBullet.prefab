@@ -170,9 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3375f8e24da37624ba0c20dbf4ed1001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  speed: 5
-  lifetime: 4
-  damage: 1
+  stats: {fileID: 11400000, guid: d7df40e48abcf02408fb41dcb3eebc7f, type: 2}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64

@@ -10516,19 +10516,7 @@ MonoBehaviour:
   visual: {fileID: 974957062}
   stateLabel: {fileID: 936380914}
   uniform: {fileID: 1353618658}
-  triggerRange: 6
-  returnSpeed: 1.8
-  homeTolerance: 0.3
-  turnSpeed: 460
-  sightInterval: 0.15
-  idleDelay: 0.3
-  windUp: 0.7
-  dashSpeed: 11
-  dashLength: 6
-  stunTime: 1
-  cooldown: 1.5
-  collisionSkin: 0.02
-  damage: 1
+  stats: {fileID: 11400000, guid: da2308068ca252441bdd56081adb35ee, type: 2}
 --- !u!70 &1356896552
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -10851,18 +10839,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  patrolSpeed: 1.2
-  chaseSpeed: 2.6
-  viewRange: 4.5
-  fov: 90
-  sightInterval: 0.15
-  loseTime: 2
-  attackRange: 1
-  windUp: 0.6
-  recovery: 0.6
-  cooldown: 1.5
-  waypointDistance: 0.08
-  damage: 1
+  stats: {fileID: 11400000, guid: a90964074af59bb40900bf77f95f09f5, type: 2}
   warning: {fileID: 831220218}
   stateLabel: {fileID: 1708803501}
   visual: {fileID: 251053522}
@@ -11011,7 +10988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ce382dcd30f464589ba3c40aea0057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 2.8
+  stats: {fileID: 11400000, guid: ddeb432b5a0626543920bd482d4ba35d, type: 2}
 --- !u!70 &1380560977
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -11106,8 +11083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78747667da2dd14bbf514db358623f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 3
-  invulnerability: 1
+  stats: {fileID: 11400000, guid: ddeb432b5a0626543920bd482d4ba35d, type: 2}
   hearts:
   - {fileID: 1780551292}
   - {fileID: 58206233}
@@ -11490,19 +11466,7 @@ MonoBehaviour:
   aimLine: {fileID: 1147710120}
   visual: {fileID: 241374100}
   stateLabel: {fileID: 813996913}
-  viewRange: 7
-  preferredDistance: 3.6
-  distanceMargin: 0.5
-  moveSpeed: 2.2
-  homeRange: 1
-  returnSpeed: 1.5
-  homeTolerance: 0.2
-  turnSpeed: 340
-  sightInterval: 0.15
-  loseTime: 1
-  repositionTime: 0.25
-  windUp: 0.6
-  cooldown: 1.5
+  stats: {fileID: 11400000, guid: a2058d7f76e516a43846fceae9cd6e79, type: 2}
 --- !u!70 &1431213157
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

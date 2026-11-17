@@ -11,13 +11,7 @@ public class Charger : MonoBehaviour
     [SerializeField] Transform visual;
     [SerializeField] TextMesh stateLabel;
     [SerializeField] SpriteRenderer uniform;
-    [SerializeField] float triggerRange = 6f, returnSpeed = 1.8f;
-    [SerializeField] float homeTolerance = .3f, turnSpeed = 460f;
-    [SerializeField] float sightInterval = .15f, idleDelay = .3f;
-    [SerializeField] float windUp = .7f, dashSpeed = 11f, dashLength = 6f;
-    [SerializeField] float stunTime = 1f, cooldown = 1.5f;
-    [SerializeField] float collisionSkin = .02f;
-    [SerializeField] int damage = 1;
+    [SerializeField] ChargerStats stats;
 
     State state;
     Rigidbody2D rb;
@@ -55,19 +49,19 @@ public class Charger : MonoBehaviour
         if (sightTimer <= 0f)
         {
             seesPlayer = CanSeePlayer();
-            sightTimer = sightInterval;
+            sightTimer = stats.sightInterval;
         }
 
         switch (state)
         {
             case State.Idle:
-                if (Vector2.Distance(rb.position, home) > homeTolerance)
+                if (Vector2.Distance(rb.position, home) > stats.homeTolerance)
                 {
                     Face(home);
                     rb.MovePosition(Vector2.MoveTowards(rb.position, home,
-                        returnSpeed * Time.fixedDeltaTime));
+                        stats.returnSpeed * Time.fixedDeltaTime));
                 }
-                else if (timer >= idleDelay && attackTimer <= 0f && seesPlayer && OnScreen())
+                else if (timer >= stats.idleDelay && attackTimer <= 0f && seesPlayer && OnScreen())
                     SetState(State.WindUp);
                 break;
             case State.WindUp:
@@ -76,7 +70,7 @@ public class Charger : MonoBehaviour
                 {
                     Face(player.position);
                     DrawWarning();
-                    if (timer >= windUp)
+                    if (timer >= stats.windUp)
                     {
                         if (CanSeePlayer()) SetState(State.Dash);
                         else SetState(State.Stunned);
@@ -84,9 +78,9 @@ public class Charger : MonoBehaviour
                 }
                 break;
             case State.Dash:
-                float distance = Mathf.Min(dashSpeed * Time.fixedDeltaTime, dashLength - travelled);
+                float distance = Mathf.Min(stats.dashSpeed * Time.fixedDeltaTime, stats.dashLength - travelled);
                 if (!OnScreen() || distance <= 0f ||
-                    hitbox.Cast(dashDirection, walls, hits, distance + collisionSkin) > 0)
+                    hitbox.Cast(dashDirection, walls, hits, distance + stats.collisionSkin) > 0)
                     SetState(State.Stunned);
                 else
                 {
@@ -95,7 +89,7 @@ public class Charger : MonoBehaviour
                 }
                 break;
             case State.Stunned:
-                if (timer >= stunTime) SetState(State.Idle);
+                if (timer >= stats.stunTime) SetState(State.Idle);
                 break;
         }
     }
@@ -104,13 +98,13 @@ public class Charger : MonoBehaviour
     {
         Vector2 direction = target - rb.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.SetRotation(Mathf.MoveTowardsAngle(rb.rotation, angle, turnSpeed * Time.fixedDeltaTime));
+        rb.SetRotation(Mathf.MoveTowardsAngle(rb.rotation, angle, stats.turnSpeed * Time.fixedDeltaTime));
     }
 
     bool CanSeePlayer()
     {
         Vector2 toPlayer = (Vector2)player.position - rb.position;
-        if (toPlayer.magnitude > triggerRange) return false;
+        if (toPlayer.magnitude > stats.triggerRange) return false;
         return Physics2D.Raycast(rb.position, toPlayer.normalized,
             toPlayer.magnitude, obstacleMask).collider == null;
     }
@@ -129,9 +123,9 @@ public class Charger : MonoBehaviour
     void DrawWarning()
     {
         Vector2 direction = Facing();
-        RaycastHit2D wall = Physics2D.Raycast(rb.position, direction, dashLength, obstacleMask);
+        RaycastHit2D wall = Physics2D.Raycast(rb.position, direction, stats.dashLength, obstacleMask);
         warningLane.SetPosition(0, rb.position);
-        warningLane.SetPosition(1, wall.collider != null ? wall.point : rb.position + direction * dashLength);
+        warningLane.SetPosition(1, wall.collider != null ? wall.point : rb.position + direction * stats.dashLength);
     }
 
     void OnCollisionEnter2D(Collision2D collision) { Hit(collision); }
@@ -141,7 +135,7 @@ public class Charger : MonoBehaviour
     {
         if (state != State.Dash || !OnScreen()) return;
         PlayerHealth target = collision.collider.GetComponent<PlayerHealth>();
-        if (target != null) target.TakeDamage(damage);
+        if (target != null) target.TakeDamage(stats.damage);
         SetState(State.Stunned);
     }
 
@@ -158,7 +152,7 @@ public class Charger : MonoBehaviour
             dashDirection = Facing();
             travelled = 0f;
         }
-        if (next == State.Stunned) attackTimer = cooldown;
+        if (next == State.Stunned) attackTimer = stats.cooldown;
     }
 
     void LateUpdate()
