@@ -40,7 +40,7 @@ public class Charger : MonoBehaviour
         normalColor = uniform.color;
         walls.SetLayerMask(obstacleMask);
         walls.useTriggers = false;
-        stateLabel.gameObject.SetActive(Debug.isDebugBuild);
+        stateLabel.gameObject.SetActive(PlayerPrefs.GetInt("guardLabels", 0) == 1);
         SetState(State.Idle);
     }
 

@@ -13,7 +13,7 @@ the project uses force text serialization and visible meta files.
 ## current stage
 
 open `Assets/Scenes/MainMenu.unity` and press play.
-the menu has play and quit buttons. play loads the first data level in `Prison`.
+the menu has play, settings and quit buttons. play opens level select.
 quit stops play mode in the editor and closes a build.
 
 `Assets/Scripts/MenuButtons.cs` uses the play and quit examples from assignment 3,
@@ -180,6 +180,27 @@ old save files keep their escape count and best hearts. a missing, null or empty
 unlock list makes level one available; earlier escape counts alone do not prove
 which level was completed. the panel's back button returns to the main menu and
 restores keyboard/gamepad focus to play.
+
+## assignment 11, settings and reset
+
+settings has two working preferences: guard state labels and the on-screen
+joystick. labels are off by default and touch controls are on. `SettingsMenu.cs`
+uses the lecture's PlayerPrefs GetInt, SetInt and Save pattern. values are saved
+when closing settings and when the open settings panel receives an app pause.
+enemy scripts read the label preference when spawned; `GamePreferences.cs`
+applies the joystick preference in the game scene. keyboard and gamepad movement
+continue to work when the joystick is hidden.
+
+reset progress opens a full-screen confirmation showing the current escape count
+and best hearts, and warns that opened levels and settings will be reset. cancel
+keeps both progress and preferences. keyboard navigation stays within the current
+panel and initially selects cancel in the confirmation.
+
+`ResetProgress.cs` follows lecture 11's reset sequence: delete save.json and the
+temporary file, delete only the game's guardLabels and touchControls keys, save
+PlayerPrefs, clear SaveManager's data in RAM and reload the menu. level one stays
+open. an app pause after reset can save defaults but cannot restore old progress.
+if file deletion fails, the confirmation stays open with an error message.
 
 ## repository
 

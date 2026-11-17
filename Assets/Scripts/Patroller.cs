@@ -39,7 +39,7 @@ public class Patroller : MonoBehaviour
         walls.useTriggers = false;
         playerHealth = player.GetComponent<PlayerHealth>();
         viewCamera = Camera.main;
-        stateLabel.gameObject.SetActive(Debug.isDebugBuild);
+        stateLabel.gameObject.SetActive(PlayerPrefs.GetInt("guardLabels", 0) == 1);
         SetState(State.Patrol);
     }
 

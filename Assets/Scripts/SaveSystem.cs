@@ -39,4 +39,20 @@ public static class SaveSystem
             Debug.LogWarning("Could not save progress: " + e.Message);
         }
     }
+
+    public static bool Delete()
+    {
+        try
+        {
+            if (File.Exists(FilePath)) File.Delete(FilePath);
+            string tmp = Path.Combine(Application.persistentDataPath, "save.tmp");
+            if (File.Exists(tmp)) File.Delete(tmp);
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("Could not reset progress: " + e.Message);
+            return false;
+        }
+    }
 }

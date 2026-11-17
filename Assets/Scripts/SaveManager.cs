@@ -24,6 +24,12 @@ public class SaveManager : MonoBehaviour
         RefreshProgress();
     }
 
+    public void ResetToDefaults()
+    {
+        Data = new SaveData();
+        RefreshProgress();
+    }
+
     void RefreshProgress()
     {
         if (progress != null)
