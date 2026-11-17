@@ -130,7 +130,7 @@ on later saves. a missing, empty or broken file loads default progress.
 `SaveManager.cs` loads in Awake and saves after a win and when the app goes
 into the background. each scene has its own manager, so returning to the menu
 reads the saved result. `LevelResult.cs` reports a victory once and passes
-PlayerHealth's remaining hearts to the manager.
+PlayerHealth's remaining hearts and the selected level to the manager.
 
 on windows, the file is `%USERPROFILE%/AppData/LocalLow/Yernur/the escapes/save.json`.
 progress is local to the device; it is not a cloud save or a mid-run checkpoint.
@@ -165,9 +165,21 @@ spawn position as home. the scene no longer holds placed guard instances.
 a level-one layout preview is visible before play; the loader disables and
 removes it before creating the selected runtime layout.
 
-the play button currently starts level one. `MenuButtons.PlayLevel(int index)`
-sets the selected index; the level-select interface and saved unlocks are the
-next stage.
+play opens the level-select panel. `LevelSelect.cs` reads level names and time
+limits from the three assets. level one is available on a fresh save. later
+buttons show which previous level must be finished and stay disabled until it is.
+
+`SaveData.unlockedLevels` stores level numbers starting at one; GameSession uses
+array indices starting at zero. `SaveManager.LevelCompleted` opens only the next
+existing level and saves immediately. replaying level one can add another escape
+but does not open level three. completing the final level never creates level four.
+`LevelLoader` checks the saved unlocks before loading, including when Prison is
+opened directly. an invalid or locked selection falls back to level one.
+
+old save files keep their escape count and best hearts. a missing, null or empty
+unlock list makes level one available; earlier escape counts alone do not prove
+which level was completed. the panel's back button returns to the main menu and
+restores keyboard/gamepad focus to play.
 
 ## repository
 

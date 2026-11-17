@@ -1,17 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
+    [SerializeField] LevelSelect levelSelect;
+
     public void Play()
     {
-        PlayLevel(0);
+        levelSelect.gameObject.SetActive(true);
     }
 
     public void PlayLevel(int index)
     {
-        GameSession.levelIndex = index;
-        SceneManager.LoadScene("Prison");
+        levelSelect.PlayLevel(index);
     }
 
     public void Quit()

@@ -1872,6 +1872,7 @@ MonoBehaviour:
   pauseButton: {fileID: 1072798815}
   saveManager: {fileID: 259640237}
   playerHealth: {fileID: 1380560980}
+  loader: {fileID: 1377884208}
 --- !u!114 &1025608202
 MonoBehaviour:
   m_ObjectHideFlags: 0

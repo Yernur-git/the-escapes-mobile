@@ -13,10 +13,13 @@ public class SaveManager : MonoBehaviour
         RefreshProgress();
     }
 
-    public void RecordEscape(int hearts)
+    public void LevelCompleted(int levelIndex, int hearts, int levelCount)
     {
         Data.successfulEscapes++;
         Data.bestHearts = Mathf.Max(Data.bestHearts, hearts);
+        int nextLevel = levelIndex + 2;
+        if (nextLevel <= levelCount && !Data.unlockedLevels.Contains(nextLevel))
+            Data.unlockedLevels.Add(nextLevel);
         SaveSystem.Save(Data);
         RefreshProgress();
     }

@@ -12,8 +12,13 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] CameraFollow view;
     [SerializeField] GameObject preview;
 
+    public int LevelCount => levels.Length;
+
     IEnumerator Start()
     {
+        if (GameSession.levelIndex < 0 || GameSession.levelIndex >= levels.Length ||
+            !SaveSystem.Load().unlockedLevels.Contains(GameSession.levelIndex + 1))
+            GameSession.levelIndex = 0;
         LevelData level = levels[GameSession.levelIndex];
         if (preview != null)
         {

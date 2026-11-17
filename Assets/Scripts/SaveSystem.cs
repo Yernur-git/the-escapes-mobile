@@ -12,7 +12,10 @@ public static class SaveSystem
         try
         {
             string json = File.ReadAllText(FilePath);
-            return JsonUtility.FromJson<SaveData>(json) ?? new SaveData();
+            SaveData data = JsonUtility.FromJson<SaveData>(json) ?? new SaveData();
+            if (data.unlockedLevels == null) data.unlockedLevels = new System.Collections.Generic.List<int>();
+            if (!data.unlockedLevels.Contains(1)) data.unlockedLevels.Add(1);
+            return data;
         }
         catch (System.Exception e)
         {
