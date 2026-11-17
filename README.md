@@ -116,6 +116,25 @@ speed, damage and lifetime from the EnemyBullet asset through the prefab.
 current health, state and timers stay on each scene object; gameplay does not
 write them into shared data. the values match the previous level setup.
 
+## assignment 11, saved progress
+
+the main menu shows successful escapes and the best number of hearts left at
+the exit. winning adds one escape and keeps the higher heart result. getting
+caught does not add progress. restart starts a new attempt with full health.
+
+`Assets/Scripts/Data/SaveData.cs` holds the version and progress fields.
+`SaveSystem.cs` uses lecture 11's JsonUtility and persistentDataPath examples.
+it writes `save.tmp`, then moves it on the first save or replaces `save.json`
+on later saves. a missing, empty or broken file loads default progress.
+
+`SaveManager.cs` loads in Awake and saves after a win and when the app goes
+into the background. each scene has its own manager, so returning to the menu
+reads the saved result. `LevelResult.cs` reports a victory once and passes
+PlayerHealth's remaining hearts to the manager.
+
+on windows, the file is `%USERPROFILE%/AppData/LocalLow/Yernur/the escapes/save.json`.
+progress is local to the device; it is not a cloud save or a mid-run checkpoint.
+
 ## repository
 
 [the-escapes-mobile](https://github.com/Yernur-git/the-escapes-mobile)

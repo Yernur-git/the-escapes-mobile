@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviour
     Color[] colors;
 
     public bool IsAlive => health > 0;
+    public int CurrentHealth => health;
 
     void Awake()
     {
