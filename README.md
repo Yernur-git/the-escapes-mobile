@@ -13,8 +13,8 @@ the project uses force text serialization and visible meta files.
 ## current stage
 
 open `Assets/Scenes/MainMenu.unity` and press play.
-the menu has play and quit buttons. play loads `Prison`, a small movement test
-level. quit stops play mode in the editor and closes a build.
+the menu has play and quit buttons. play loads the first data level in `Prison`.
+quit stops play mode in the editor and closes a build.
 
 `Assets/Scripts/MenuButtons.cs` uses the play and quit examples from assignment 3,
 with the scene name changed to `Prison`. `SafeArea.cs` uses the lecture 8-9 example.
@@ -81,13 +81,13 @@ an attack cooldown prevents immediate repeat charges. a collider cast stops
 fast movement before a wall; player contact during the dash deals one damage.
 the uniform dims while stunned. all attack values are set in the inspector.
 
-all three enemy types share the same level. the canvas submission asks for the
+the third data level uses all three enemy types. the canvas submission asks for the
 project or repository link, the enemy scripts and one narrated 2–3 minute mp4
 showing the result, main steps, problems and solutions. AI_LOG.txt is the log
 named by the canvas brief; DECISIONS.md and separate phone playtest clips are
 not listed there.
 
-## level revision
+## assignment 10 layout revision
 
 the route goes through the cell block, watch post and service wing. the first
 divider opens at the bottom, the second at the top. the exit is at the bottom
@@ -134,6 +134,40 @@ PlayerHealth's remaining hearts to the manager.
 
 on windows, the file is `%USERPROFILE%/AppData/LocalLow/Yernur/the escapes/save.json`.
 progress is local to the device; it is not a cloud save or a mid-run checkpoint.
+
+## assignment 11, levels from data
+
+`Assets/Data/Levels` contains Level_01, Level_02 and Level_03. each references
+its own layout prefab in `Assets/Prefabs/Levels`, including room floors, walls
+and solid cover. all three use the reach-exit goal. there are no key pickups,
+switch objectives or inventory requirements yet.
+
+- night shift: cells, infirmary, laundry, yard and storage. two patrollers and
+  one shooter; 90 seconds.
+- loading sector: storage, workshop, loading lanes and service rooms. two
+  patrollers, two shooters and one charger; 120 seconds.
+- high security: nine connected rooms with a central canteen and side routes.
+  three patrollers, two shooters and two chargers; 150 seconds.
+
+`LevelData.cs` stores the goal, time, player and exit positions, enemy spawn
+points, layout and map size. each wave references an enemy prefab and holds
+its count, delay, starting direction and patrol points. every patroller has its
+own route. `LevelLoader.cs` follows lecture 11's coroutine and wave
+loops. it reads `GameSession.levelIndex` and builds the selected level in the
+same Prison scene. `GameTimer.cs` counts down the asset's time limit, stops on
+pause or a result, and ends the attempt if time runs out. `CameraFollow.cs`
+keeps the player in view and clamps the camera to the loaded map boundaries.
+
+Patroller, Shooter and Charger prefabs reference their existing stats assets.
+they start inactive so the loader can assign the player and patrol route before
+Awake runs. it then activates them; the shooter and charger record their new
+spawn position as home. the scene no longer holds placed guard instances.
+a level-one layout preview is visible before play; the loader disables and
+removes it before creating the selected runtime layout.
+
+the play button currently starts level one. `MenuButtons.PlayLevel(int index)`
+sets the selected index; the level-select interface and saved unlocks are the
+next stage.
 
 ## repository
 

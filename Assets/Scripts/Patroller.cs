@@ -25,6 +25,12 @@ public class Patroller : MonoBehaviour
     bool seesPlayer, clearPath;
     Vector2 lastSeen;
 
+    public void Configure(Transform target, Transform[] route)
+    {
+        player = target;
+        points = route;
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

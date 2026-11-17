@@ -5,6 +5,12 @@ public class MenuButtons : MonoBehaviour
 {
     public void Play()
     {
+        PlayLevel(0);
+    }
+
+    public void PlayLevel(int index)
+    {
+        GameSession.levelIndex = index;
         SceneManager.LoadScene("Prison");
     }
 

@@ -21,6 +21,11 @@ public class Shooter : MonoBehaviour
     float timer, sightTimer, unseenTime;
     bool seesPlayer;
 
+    public void Configure(Transform target)
+    {
+        player = target;
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

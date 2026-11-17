@@ -25,6 +25,11 @@ public class Charger : MonoBehaviour
     bool seesPlayer;
     Color normalColor;
 
+    public void Configure(Transform target)
+    {
+        player = target;
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
