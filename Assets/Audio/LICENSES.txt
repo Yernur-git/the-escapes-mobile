@@ -21,8 +21,13 @@ gain multiplied by 0.900000; stereo OGG Vorbis quality 6.
 sound effects
 
 source library: C:/media/SOUND EFFECTS, supplied by the project owner.
-the owner reports purchasing the pack. pack title, publisher and license terms
-have not been supplied; these sounds are not being labelled CC0 or public domain.
+seller: ClashiVFX; the owner confirms purchasing the library from this seller.
+seller's SFX product: +5000 SFX Ultimate Pack
+source and license statement: https://clashivfx.com/products/5000-sfx-ultimate-pack
+license: seller's commercial-use license. the product FAQ states that the sounds
+may be used in personal and commercial projects, including monetized content.
+checked: 2026-11-24. individual sound creators are not identified on the page.
+the FAQ does not separately describe public redistribution of source audio files.
 changes: converted to mono 44.1 kHz PCM WAV, silence trimmed, short edge fades
 and gain adjustment; imported into Unity with ADPCM and DecompressOnLoad.
 warning clips shortened to fit their wind-up windows.

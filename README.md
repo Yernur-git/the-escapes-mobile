@@ -280,12 +280,15 @@ stereo OGG Vorbis encoding. exact ranges and download URLs are in
 
 15 effects in `Assets/Audio/SFX` cover 12 event types: footsteps, ui clicks,
 damage, capture, win, lose, three guard warnings and three guard attacks.
-the files come from the owner's purchased library at
-`C:/media/SOUND EFFECTS`; the pack title, publisher and license terms have not
-been supplied. each original path is listed in `Assets/Audio/LICENSES.txt`.
+the files come from the owner's library at `C:/media/SOUND EFFECTS`, purchased
+from [ClashiVFX](https://clashivfx.com/products/5000-sfx-ultimate-pack).
+the seller's SFX product page states that its commercial-use license covers
+personal and commercial projects. the FAQ does not separately describe public
+redistribution of source audio files. individual sound creators are not listed.
+each original path is recorded in `Assets/Audio/LICENSES.txt`.
 effects are trimmed mono WAV files, imported with ADPCM and DecompressOnLoad.
 
-all effects below share that owner-supplied source and unconfirmed pack license;
+all effects below share that purchased source and seller's commercial-use license;
 the original filenames are relative to `C:/media/SOUND EFFECTS`.
 
 | project sound | original file | event |
