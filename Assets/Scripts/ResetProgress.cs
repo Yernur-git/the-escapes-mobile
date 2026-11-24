@@ -35,7 +35,11 @@ public class ResetProgress : MonoBehaviour
         }
         PlayerPrefs.DeleteKey("guardLabels");
         PlayerPrefs.DeleteKey("touchControls");
+        PlayerPrefs.DeleteKey("MusicVol");
+        PlayerPrefs.DeleteKey("SFXVol");
         PlayerPrefs.Save();
+        MusicManager.Instance.ApplySavedVolumes();
+        MusicManager.Instance.SetPaused(false);
         saveManager.ResetToDefaults();
         GameSession.levelIndex = 0;
         Time.timeScale = 1f;

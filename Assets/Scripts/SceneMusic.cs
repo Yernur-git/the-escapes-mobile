@@ -6,6 +6,7 @@ public class SceneMusic : MonoBehaviour
 
     void Start()
     {
+        MusicManager.Instance.SetPaused(false);
         MusicManager.Instance.Play(track);
     }
 }

@@ -1,12 +1,17 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance;
+    public const float DefaultMusicVolume = .31622777f;
+    public const float DefaultSfxVolume = 1f;
     [SerializeField] AudioSource a, b;
     [SerializeField] SfxPlayer uiSounds;
     [SerializeField] AudioClip click;
+    [SerializeField] AudioMixer mixer;
+    [SerializeField] PauseAudio pauseAudio;
     AudioSource current;
 
     void Awake()
@@ -19,6 +24,22 @@ public class MusicManager : MonoBehaviour
         Instance = this;
         current = a;
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        ApplySavedVolumes();
+    }
+
+    public void ApplySavedVolumes()
+    {
+        mixer.SetFloat("MusicVol", Mathf.Log10(Mathf.Max(PlayerPrefs.GetFloat("MusicVol", DefaultMusicVolume), .0001f)) * 20f);
+        mixer.SetFloat("SFXVol", Mathf.Log10(Mathf.Max(PlayerPrefs.GetFloat("SFXVol", DefaultSfxVolume), .0001f)) * 20f);
+    }
+
+    public void SetPaused(bool paused)
+    {
+        pauseAudio.SetPaused(paused);
     }
 
     public void Play(AudioClip clip, float fade = 1f)
@@ -58,5 +79,15 @@ public class MusicManager : MonoBehaviour
     void OnDestroy()
     {
         if (Instance == this) Instance = null;
+    }
+
+    void OnApplicationPause(bool paused)
+    {
+        if (paused) PlayerPrefs.Save();
+    }
+
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.Save();
     }
 }

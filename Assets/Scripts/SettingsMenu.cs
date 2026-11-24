@@ -7,12 +7,13 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Toggle guardLabels;
     [SerializeField] Toggle touchControls;
     [SerializeField] Button openButton;
+    [SerializeField] Slider music;
 
     void OnEnable()
     {
         guardLabels.SetIsOnWithoutNotify(PlayerPrefs.GetInt("guardLabels", 0) == 1);
         touchControls.SetIsOnWithoutNotify(PlayerPrefs.GetInt("touchControls", 1) == 1);
-        EventSystem.current.SetSelectedGameObject(guardLabels.gameObject);
+        EventSystem.current.SetSelectedGameObject(music.gameObject);
     }
 
     public void SetGuardLabels(bool enabled)

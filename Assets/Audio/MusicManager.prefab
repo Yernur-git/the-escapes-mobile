@@ -281,6 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4618286119225178615}
   - component: {fileID: 3886457782764948149}
+  - component: {fileID: 2625574206763241015}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -322,6 +323,23 @@ MonoBehaviour:
   b: {fileID: 2096854465740229830}
   uiSounds: {fileID: 1252352146184632321}
   click: {fileID: 8300000, guid: 3969474dbeb55ee4b96e9b34c8b27082, type: 3}
+  mixer: {fileID: 24100000, guid: 995b6b9573d360840ba96e40c4434855, type: 2}
+  pauseAudio: {fileID: 2625574206763241015}
+--- !u!114 &2625574206763241015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3618090858655041388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1650ea372768aac4e9c03b8e64006e1b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PauseAudio
+  mixer: {fileID: 24100000, guid: 995b6b9573d360840ba96e40c4434855, type: 2}
+  normalSnapshot: {fileID: 24500006, guid: 995b6b9573d360840ba96e40c4434855, type: 2}
+  pausedSnapshot: {fileID: 4843443153971333371, guid: 995b6b9573d360840ba96e40c4434855, type: 2}
 --- !u!1 &7186392634184595591
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     {
         pausePanel.SetActive(paused);
         Time.timeScale = paused ? 0f : 1f;
+        MusicManager.Instance.SetPaused(paused);
     }
 
     public void Resume()
@@ -19,12 +20,14 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
+        MusicManager.Instance.SetPaused(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ToMenu()
     {
         Time.timeScale = 1f;
+        MusicManager.Instance.SetPaused(false);
         SceneManager.LoadScene("MainMenu");
     }
 }

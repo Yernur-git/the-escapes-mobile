@@ -197,7 +197,7 @@ keeps both progress and preferences. keyboard navigation stays within the curren
 panel and initially selects cancel in the confirmation.
 
 `ResetProgress.cs` follows lecture 11's reset sequence: delete save.json and the
-temporary file, delete only the game's guardLabels and touchControls keys, save
+temporary file, delete the game's guardLabels, touchControls, MusicVol and SFXVol keys, save
 PlayerPrefs, clear SaveManager's data in RAM and reload the menu. level one stays
 open. an app pause after reset can save defaults but cannot restore old progress.
 if file deletion fails, the confirmation stays open with an error message.
@@ -217,7 +217,31 @@ current gains and reuse a still-playing track when reversing the fade.
 
 `SceneMusic.cs` is on its own scene object. it requests the menu or level clip in
 Start; it stays separate from the duplicate manager that destroys itself on reload.
-saved volume sliders and the pause filter are the next stage.
+settings and pause use the same persistent mixer.
+
+## assignment 12, volume and pause
+
+settings has music and sound-effects sliders with a 0.0001-1 range and percentage
+labels. `VolumeSlider.cs` follows lecture 12: Log10(value) * 20 converts the value
+to decibels, then PlayerPrefs remembers it. half volume is about -6 dB, 10% is
+-20 dB and the minimum is -80 dB. left/right adjusts a focused slider; up/down
+moves through the settings controls.
+
+`MusicManager.Start` applies both saved values even while settings is hidden.
+opening the panel refreshes its positions and labels. closing settings, pausing
+the app or quitting saves preferences. the initial mix stays at -10 dB for music
+and 0 dB for effects.
+
+`PauseAudio.cs` switches between Normal and Paused snapshots over 0.3 seconds.
+Tracks has volume 0 dB and Lowpass Simple cutoff 22000 Hz in Normal, and -6 dB
+and 800 Hz in Paused. transitions use UnscaledTime so they finish at timeScale 0.
+the Music and SFX parameters stay separate from the snapshot, preserving the
+player's volume settings. effects and button clicks remain clear during pause.
+
+`PauseMenu.cs` requests the snapshot on pause/resume and restores Normal before
+retry or returning to the menu. `SceneMusic.cs` also restores Normal on scene
+entry. reset deletes the two volume keys and immediately reapplies defaults to
+the surviving MusicManager, before the menu reloads. unrelated preferences stay.
 
 ## assignment 12, sound events
 
