@@ -12,6 +12,8 @@ public class Patroller : MonoBehaviour
     [SerializeField] SpriteRenderer warning;
     [SerializeField] TextMesh stateLabel;
     [SerializeField] Transform visual;
+    [SerializeField] SfxPlayer sounds;
+    [SerializeField] AudioClip windUpSound, attackSound;
 
     State state;
     Rigidbody2D rb;
@@ -70,17 +72,21 @@ public class Patroller : MonoBehaviour
                 unseenTime = seesPlayer ? 0f : unseenTime + dt;
                 MoveTo(lastSeen, stats.chaseSpeed);
                 if (seesPlayer && DistanceToPlayer() <= stats.attackRange &&
-                    attackTimer <= 0f && OnScreen())
+                    attackTimer <= 0f && OnScreen(.15f))
                     SetState(State.Attack);
                 else if (unseenTime >= stats.loseTime)
                     SetState(State.Patrol);
                 break;
             case State.Attack:
-                if (!OnScreen()) SetState(State.Recovery);
+                if (!OnScreen(.15f)) SetState(State.Recovery);
                 else if (timer >= stats.windUp)
                 {
-                    if (DistanceToPlayer() <= stats.attackRange && ClearLine())
-                        playerHealth.TakeDamage(stats.damage);
+                    if (OnScreen())
+                    {
+                        sounds.Play(attackSound, .55f);
+                        if (DistanceToPlayer() <= stats.attackRange && ClearLine())
+                            playerHealth.TakeDamage(stats.damage);
+                    }
                     attackTimer = stats.cooldown;
                     SetState(State.Recovery);
                 }
@@ -125,10 +131,11 @@ public class Patroller : MonoBehaviour
         return hit.collider == null;
     }
 
-    bool OnScreen()
+    bool OnScreen(float margin = 0f)
     {
         Vector3 p = viewCamera.WorldToViewportPoint(transform.position);
-        return p.z > 0f && p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
+        return p.z > 0f && p.x > -margin && p.x < 1f + margin &&
+            p.y > -margin && p.y < 1f + margin;
     }
 
     float DistanceToPlayer()
@@ -143,6 +150,7 @@ public class Patroller : MonoBehaviour
         unseenTime = 0f;
         warning.enabled = next == State.Attack;
         stateLabel.text = next.ToString().ToLower();
+        if (next == State.Attack) sounds.Play(windUpSound, .6f, false);
         if (next == State.Patrol) SelectPatrolPoint();
     }
 

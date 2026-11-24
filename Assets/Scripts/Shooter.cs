@@ -12,6 +12,8 @@ public class Shooter : MonoBehaviour
     [SerializeField] Transform visual;
     [SerializeField] TextMesh stateLabel;
     [SerializeField] ShooterStats stats;
+    [SerializeField] SfxPlayer sounds;
+    [SerializeField] AudioClip windUpSound, attackSound;
 
     State state;
     Rigidbody2D rb;
@@ -64,18 +66,18 @@ public class Shooter : MonoBehaviour
                 KeepDistance();
                 unseenTime = seesPlayer ? 0f : unseenTime + dt;
                 if (unseenTime >= stats.loseTime) SetState(State.Idle);
-                else if (seesPlayer && timer >= stats.repositionTime && OnScreen())
+                else if (seesPlayer && timer >= stats.repositionTime && OnScreen(.15f))
                     SetState(State.Aim);
                 break;
             case State.Aim:
-                if (!OnScreen()) SetState(State.Cooldown);
+                if (!OnScreen(.15f)) SetState(State.Cooldown);
                 else
                 {
                     if (seesPlayer) Face(player.position);
                     DrawAim();
                     if (timer >= stats.windUp)
                     {
-                        if (CanSeePlayer()) Fire();
+                        if (OnScreen() && CanSeePlayer()) Fire();
                         SetState(State.Cooldown);
                     }
                 }
@@ -122,10 +124,11 @@ public class Shooter : MonoBehaviour
             toPlayer.magnitude, obstacleMask).collider == null;
     }
 
-    bool OnScreen()
+    bool OnScreen(float margin = 0f)
     {
         Vector3 p = viewCamera.WorldToViewportPoint(rb.position);
-        return p.z > 0f && p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
+        return p.z > 0f && p.x > -margin && p.x < 1f + margin &&
+            p.y > -margin && p.y < 1f + margin;
     }
 
     Vector2 AimDirection()
@@ -144,6 +147,7 @@ public class Shooter : MonoBehaviour
 
     void Fire()
     {
+        sounds.Play(attackSound, .5f);
         EnemyBullet shot = Instantiate(bullet, rb.position, Quaternion.identity);
         Physics2D.IgnoreCollision(shot.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         shot.Launch(AimDirection());
@@ -156,7 +160,11 @@ public class Shooter : MonoBehaviour
         unseenTime = 0f;
         aimLine.enabled = next == State.Aim;
         stateLabel.text = next == State.KeepDistance ? "keep distance" : next.ToString().ToLower();
-        if (next == State.Aim) DrawAim();
+        if (next == State.Aim)
+        {
+            DrawAim();
+            sounds.Play(windUpSound, .7f, false);
+        }
     }
 
     void LateUpdate()

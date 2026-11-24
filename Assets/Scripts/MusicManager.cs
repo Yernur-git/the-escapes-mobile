@@ -5,6 +5,8 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance;
     [SerializeField] AudioSource a, b;
+    [SerializeField] SfxPlayer uiSounds;
+    [SerializeField] AudioClip click;
     AudioSource current;
 
     void Awake()
@@ -32,6 +34,11 @@ public class MusicManager : MonoBehaviour
         }
         StartCoroutine(Crossfade(current, next, fade));
         current = next;
+    }
+
+    public void PlayClick()
+    {
+        uiSounds.Play(click, .55f);
     }
 
     IEnumerator Crossfade(AudioSource from, AudioSource to, float time)

@@ -217,7 +217,29 @@ current gains and reuse a still-playing track when reversing the fade.
 
 `SceneMusic.cs` is on its own scene object. it requests the menu or level clip in
 Start; it stays separate from the duplicate manager that destroys itself on reload.
-sound events, saved volume sliders and the pause filter are the next stages.
+saved volume sliders and the pause filter are the next stage.
+
+## assignment 12, sound events
+
+`SfxPlayer.cs` uses the lecture's PlayOneShot pattern with one AudioSource per
+object, routed to SFX. steps use three clips and hits use two, without the same
+clip twice in a row. repeated effects vary pitch between 0.92 and 1.08.
+
+`PlayerMovement.cs` counts actual distance travelled for footsteps. holding a
+direction against a wall does not keep generating steps. `PlayerHealth.cs`
+plays a hit only when damage is accepted; a fatal hit plays the capture cue.
+`LevelResult.cs` plays win or lose once, including when the result stops game
+time. there is no jump or collectible in this top-down game.
+
+Patroller plays its warning on entering Attack, Shooter on entering Aim and
+Charger on entering WindUp. each has a different warning and attack clip.
+warnings can start within a 15% margin outside the camera view; an offscreen
+guard cannot land its melee hit, fire a bullet or start a dash. the existing
+wind-up delays are unchanged.
+
+`ButtonSound.cs` is the first onClick action on each menu and game button.
+it calls a persistent UI source on MusicManager, so a scene change cannot cut
+off the click. this also works with keyboard and gamepad button activation.
 
 ## sounds and music
 
@@ -232,12 +254,33 @@ the tracks use loop excerpts with a 15 ms blend at the wrap, reduced gain and
 stereo OGG Vorbis encoding. exact ranges and download URLs are in
 `Assets/Audio/LICENSES.txt`.
 
-15 effects in `Assets/Audio/SFX` are prepared for footsteps, ui clicks, damage,
-guard warnings, attacks, dash, capture, win and lose. gameplay event connections
-are the next stage. the files come from the owner's purchased library at
+15 effects in `Assets/Audio/SFX` cover 12 event types: footsteps, ui clicks,
+damage, capture, win, lose, three guard warnings and three guard attacks.
+the files come from the owner's purchased library at
 `C:/media/SOUND EFFECTS`; the pack title, publisher and license terms have not
 been supplied. each original path is listed in `Assets/Audio/LICENSES.txt`.
 effects are trimmed mono WAV files, imported with ADPCM and DecompressOnLoad.
+
+all effects below share that owner-supplied source and unconfirmed pack license;
+the original filenames are relative to `C:/media/SOUND EFFECTS`.
+
+| project sound | original file | event |
+| --- | --- | --- |
+| `step_01.wav` | `Knocking Door/Single Footstep Tap 01.wav` | movement |
+| `step_02.wav` | `Knocking Door/Single Footstep Tap 02.wav` | movement variant |
+| `step_03.wav` | `Knocking Door/Single Footstep Tap 03.wav` | movement variant |
+| `ui_click.wav` | `Computer/Click1.wav` | button activation |
+| `hurt_01.wav` | `Hit/PUNCH.mp3` | accepted damage |
+| `hurt_02.wav` | `Hit/PUNCH #3.mp3` | damage variant |
+| `patrol_warning.wav` | `Alerts, Error, Correct/Alert.wav` | Patroller wind-up |
+| `shooter_warning.wav` | `Weapons/Gun Click (#1).wav` | Shooter wind-up |
+| `charge_warning.wav` | `Whooshs/Whoosh Light Short.wav` | Charger wind-up |
+| `melee_swing.wav` | `Whooshs/whoosh_swish_small_01.wav` | Patroller attack |
+| `shot.wav` | `Weapons/Shot.wav` | Shooter fires |
+| `dash.wav` | `Whooshs/whoosh_swish_high_fast_01.wav` | Charger starts dash |
+| `caught.wav` | `Cell Door/Jail Door Closed (1).wav` | player death/capture |
+| `win.wav` | `Prize or Achievement/Bells 1 Upward 01.wav` | win |
+| `lose.wav` | `Prize or Achievement/Bells 1 Downward.wav` | lose |
 
 ## repository
 

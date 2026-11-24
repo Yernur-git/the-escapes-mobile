@@ -9,6 +9,8 @@ public class LevelResult : MonoBehaviour
     [SerializeField] SaveManager saveManager;
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] LevelLoader loader;
+    [SerializeField] SfxPlayer sounds;
+    [SerializeField] AudioClip win, lose;
 
     public bool IsFinished { get; private set; }
 
@@ -16,6 +18,7 @@ public class LevelResult : MonoBehaviour
     {
         if (IsFinished) return;
         IsFinished = true;
+        sounds.Play(escaped ? win : lose, .7f, false);
         if (escaped) saveManager.LevelCompleted(GameSession.levelIndex, playerHealth.CurrentHealth, loader.LevelCount);
         title.text = escaped ? "you escaped" : "caught";
         pauseButton.interactable = false;

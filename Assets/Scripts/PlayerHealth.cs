@@ -6,6 +6,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] PlayerStats stats;
     [SerializeField] Image[] hearts;
     [SerializeField] LevelResult result;
+    [SerializeField] SfxPlayer sounds;
+    [SerializeField] AudioClip[] hits;
+    [SerializeField] AudioClip death;
 
     int health;
     float hurtTimer;
@@ -37,7 +40,12 @@ public class PlayerHealth : MonoBehaviour
         health = Mathf.Max(0, health - damage);
         hurtTimer = stats.invulnerability;
         RefreshHearts();
-        if (!IsAlive) result.Finish(false);
+        if (IsAlive) sounds.PlayRandom(hits, .7f);
+        else
+        {
+            sounds.Play(death, .65f, false);
+            result.Finish(false);
+        }
     }
 
     void RefreshHearts()

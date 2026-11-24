@@ -12,6 +12,8 @@ public class Charger : MonoBehaviour
     [SerializeField] TextMesh stateLabel;
     [SerializeField] SpriteRenderer uniform;
     [SerializeField] ChargerStats stats;
+    [SerializeField] SfxPlayer sounds;
+    [SerializeField] AudioClip windUpSound, attackSound;
 
     State state;
     Rigidbody2D rb;
@@ -66,18 +68,18 @@ public class Charger : MonoBehaviour
                     rb.MovePosition(Vector2.MoveTowards(rb.position, home,
                         stats.returnSpeed * Time.fixedDeltaTime));
                 }
-                else if (timer >= stats.idleDelay && attackTimer <= 0f && seesPlayer && OnScreen())
+                else if (timer >= stats.idleDelay && attackTimer <= 0f && seesPlayer && OnScreen(.15f))
                     SetState(State.WindUp);
                 break;
             case State.WindUp:
-                if (!OnScreen()) SetState(State.Stunned);
+                if (!OnScreen(.15f)) SetState(State.Stunned);
                 else
                 {
                     Face(player.position);
                     DrawWarning();
                     if (timer >= stats.windUp)
                     {
-                        if (CanSeePlayer()) SetState(State.Dash);
+                        if (OnScreen() && CanSeePlayer()) SetState(State.Dash);
                         else SetState(State.Stunned);
                     }
                 }
@@ -114,10 +116,11 @@ public class Charger : MonoBehaviour
             toPlayer.magnitude, obstacleMask).collider == null;
     }
 
-    bool OnScreen()
+    bool OnScreen(float margin = 0f)
     {
         Vector3 p = viewCamera.WorldToViewportPoint(rb.position);
-        return p.z > 0f && p.x > 0f && p.x < 1f && p.y > 0f && p.y < 1f;
+        return p.z > 0f && p.x > -margin && p.x < 1f + margin &&
+            p.y > -margin && p.y < 1f + margin;
     }
 
     Vector2 Facing()
@@ -151,11 +154,16 @@ public class Charger : MonoBehaviour
         warningLane.enabled = next == State.WindUp;
         stateLabel.text = next == State.WindUp ? "wind-up" : next.ToString().ToLower();
         uniform.color = next == State.Stunned ? normalColor * Color.gray : normalColor;
-        if (next == State.WindUp) DrawWarning();
+        if (next == State.WindUp)
+        {
+            DrawWarning();
+            sounds.Play(windUpSound, .7f, false);
+        }
         if (next == State.Dash)
         {
             dashDirection = Facing();
             travelled = 0f;
+            sounds.Play(attackSound, .6f);
         }
         if (next == State.Stunned) attackTimer = stats.cooldown;
     }
