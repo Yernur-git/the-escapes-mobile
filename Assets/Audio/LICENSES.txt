@@ -1,0 +1,103 @@
+music credits
+
+Music/menu_loop.ogg
+"Sneaky Snitch" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+https://creativecommons.org/licenses/by/4.0/
+source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100772
+download: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Snitch.mp3
+changes: loop excerpt 0.020000-66.226897 seconds; 15 ms wrap blend;
+gain multiplied by 0.900000; stereo OGG Vorbis quality 6.
+
+Music/level_loop.ogg
+"Sneaky Adventure" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+https://creativecommons.org/licenses/by/4.0/
+source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644
+download: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Adventure.mp3
+changes: loop excerpt 0.020000-35.575556 seconds; 15 ms wrap blend;
+gain multiplied by 0.900000; stereo OGG Vorbis quality 6.
+
+sound effects
+
+source library: C:/media/SOUND EFFECTS, supplied by the project owner.
+the owner reports purchasing the pack. pack title, publisher and license terms
+have not been supplied; these sounds are not being labelled CC0 or public domain.
+changes: converted to mono 44.1 kHz PCM WAV, silence trimmed, short edge fades
+and gain adjustment; imported into Unity with ADPCM and DecompressOnLoad.
+warning clips shortened to fit their wind-up windows.
+
+SFX/step_01.wav
+original: C:/media/SOUND EFFECTS/Knocking Door/Single Footstep Tap 01.wav
+used range: 0.000000-0.158073 seconds; gain x1.043990
+original SHA-256: 579a4e8f8bda112bb60f40de238fde4621a4f857af447ca9794523e11ba2a81c
+
+SFX/step_02.wav
+original: C:/media/SOUND EFFECTS/Knocking Door/Single Footstep Tap 02.wav
+used range: 0.000000-0.169093 seconds; gain x1.492625
+original SHA-256: 607e90e7296f392afc830898a5f9357695a5a70532e451cee07aae0b5b410633
+
+SFX/step_03.wav
+original: C:/media/SOUND EFFECTS/Knocking Door/Single Footstep Tap 03.wav
+used range: 0.009592-0.209138 seconds; gain x0.762940
+original SHA-256: 530f990d21d98bb0ebdb1160072dd255812d8d4d9edda6b1b14233846434bae4
+
+SFX/ui_click.wav
+original: C:/media/SOUND EFFECTS/Computer/Click1.wav
+used range: 0.000000-0.278413 seconds; gain x0.899739
+original SHA-256: 6f9a8f326ccf4de31b4a13a3465f2a2231e9390955eedcdadb10925354ba6e79
+
+SFX/hurt_01.wav
+original: C:/media/SOUND EFFECTS/Hit/PUNCH.mp3
+used range: 0.019048-0.512109 seconds; gain x0.682782
+original SHA-256: f0a0710f30781712de40f53c06f22fcd06ce519367fbce9c1295d0f4c76292b5
+
+SFX/hurt_02.wav
+original: C:/media/SOUND EFFECTS/Hit/PUNCH #3.mp3
+used range: 0.143787-0.461338 seconds; gain x1.064033
+original SHA-256: 9f11d87c652b42d4861a9e156c2b8197891c5018f49a4fb2cc26a62959f921d1
+
+SFX/patrol_warning.wav
+original: C:/media/SOUND EFFECTS/Alerts, Error, Correct/Alert.wav
+used range: 0.000000-0.360000 seconds; gain x0.661034
+original SHA-256: 98e58d83a01049355e4f8e031a0b61591a80d14e0d7f25675e1d7bee5c2d3e50
+
+SFX/shooter_warning.wav
+original: C:/media/SOUND EFFECTS/Weapons/Gun Click (#1).wav
+used range: 0.000000-0.320000 seconds; gain x0.631275
+original SHA-256: 6fa0a36840a2fed9d0542a2c9a27d3c7d89a98d7d2d2f691350ff645455a522d
+
+SFX/charge_warning.wav
+original: C:/media/SOUND EFFECTS/Whooshs/Whoosh Light Short.wav
+used range: 0.096463-0.602812 seconds; gain x1.135673
+original SHA-256: fa9991ead0ae076a3fbd6fdb26fdca4e1b40056ac8299baa95299754cbaef9a2
+
+SFX/melee_swing.wav
+original: C:/media/SOUND EFFECTS/Whooshs/whoosh_swish_small_01.wav
+used range: 0.000000-0.303764 seconds; gain x0.809162
+original SHA-256: f94924e2bd5eb847be69b3abff87abae3add0a88c398f95f68eeb555d204f63b
+
+SFX/shot.wav
+original: C:/media/SOUND EFFECTS/Weapons/Shot.wav
+used range: 0.000000-1.691882 seconds; gain x1.500000
+original SHA-256: f9a65752ddf0850882b2e983b0146b84770aa285260ed8def123ec4f3f35361c
+
+SFX/dash.wav
+original: C:/media/SOUND EFFECTS/Whooshs/whoosh_swish_high_fast_01.wav
+used range: 0.000000-0.181066 seconds; gain x1.014333
+original SHA-256: c6b88e820374882544683f6d14822fbfdf01b11806657fd66504169ba58326f3
+
+SFX/caught.wav
+original: C:/media/SOUND EFFECTS/Cell Door/Jail Door Closed (1).wav
+used range: 0.406440-2.832041 seconds; gain x0.814788
+original SHA-256: 7e65460a3a6e436069b1e20bfdb519f519f12f89b815b9cd0da7eb1145e6e52c
+
+SFX/win.wav
+original: C:/media/SOUND EFFECTS/Prize or Achievement/Bells 1 Upward 01.wav
+used range: 0.000000-0.670023 seconds; gain x0.647795
+original SHA-256: 2bb6a501291bd9087ed9186fade89a4323c30a87a70c7f2a84fe25953cb221ed
+
+SFX/lose.wav
+original: C:/media/SOUND EFFECTS/Prize or Achievement/Bells 1 Downward.wav
+used range: 0.000000-0.619070 seconds; gain x0.742944
+original SHA-256: 2bc3a2fb6ca9c2c699f08eaf4845f809450cff5ae060bdddc1a34563310ba1d0

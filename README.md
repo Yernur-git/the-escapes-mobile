@@ -202,6 +202,43 @@ PlayerPrefs, clear SaveManager's data in RAM and reload the menu. level one stay
 open. an app pause after reset can save defaults but cannot restore old progress.
 if file deletion fails, the confirmation stays open with an error message.
 
+## assignment 12, music foundation
+
+`Assets/Audio/GameMix.mixer` has Master, Music, SFX and the Music child Tracks.
+the two music sources output to Tracks, so Music controls both together. the
+initial music group volume is -10 dB. music imports stay stereo and use Streaming
+with Vorbis compression for mobile memory use.
+
+`MusicManager.cs` follows lecture 12's two-source crossfade and DontDestroyOnLoad
+pattern. one manager survives scene changes. a repeated request for the current
+track keeps its playback position. a one-second crossfade uses unscaled time, so
+it continues when game time is stopped. interrupted transitions start from the
+current gains and reuse a still-playing track when reversing the fade.
+
+`SceneMusic.cs` is on its own scene object. it requests the menu or level clip in
+Start; it stays separate from the duplicate manager that destroys itself on reload.
+sound events, saved volume sliders and the pause filter are the next stages.
+
+## sounds and music
+
+| project file | use | title | author and license |
+| --- | --- | --- | --- |
+| `Assets/Audio/Music/menu_loop.ogg` | main menu and level selection | [Sneaky Snitch](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100772) | Kevin MacLeod, CC BY 4.0 |
+| `Assets/Audio/Music/level_loop.ogg` | Prison, all three levels | [Sneaky Adventure](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644) | Kevin MacLeod, CC BY 4.0 |
+
+"Sneaky Snitch" and "Sneaky Adventure" Kevin MacLeod (incompetech.com).
+Licensed under [Creative Commons: By Attribution 4.0 License](https://creativecommons.org/licenses/by/4.0/).
+the tracks use loop excerpts with a 15 ms blend at the wrap, reduced gain and
+stereo OGG Vorbis encoding. exact ranges and download URLs are in
+`Assets/Audio/LICENSES.txt`.
+
+15 effects in `Assets/Audio/SFX` are prepared for footsteps, ui clicks, damage,
+guard warnings, attacks, dash, capture, win and lose. gameplay event connections
+are the next stage. the files come from the owner's purchased library at
+`C:/media/SOUND EFFECTS`; the pack title, publisher and license terms have not
+been supplied. each original path is listed in `Assets/Audio/LICENSES.txt`.
+effects are trimmed mono WAV files, imported with ADPCM and DecompressOnLoad.
+
 ## repository
 
 [the-escapes-mobile](https://github.com/Yernur-git/the-escapes-mobile)
